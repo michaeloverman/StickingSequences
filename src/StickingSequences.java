@@ -1,10 +1,15 @@
+import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Michael on 9/7/2016.
  */
-public class StickingSequences {
+public class StickingSequences extends Frame {
     public int[] num;
     public int counter;
     public boolean stop;
@@ -54,14 +59,14 @@ public class StickingSequences {
         System.out.println("Running Sequence of " + a);
         generateFullList();
 //        generateTestSequence();
-        printEm("Numerical Order", fullList);
+//        printEm("Numerical Order", fullList);
 
         findUniques(fullList);
-        printEm("Uniques", uniq);
+//        printEm("Uniques", uniq);
         findAllFours(fullList);
-        printEm("All Four Mallets", allFour);
+//        printEm("All Four Mallets", allFour);
         findAllFourUniques(fullList);
-        printEm("Unique All Four Mallets", all4Uniq);
+//        printEm("Unique All Four Mallets", all4Uniq);
 
         saveAll();
 
@@ -143,6 +148,73 @@ public class StickingSequences {
         System.out.println("");
     }
     public void saveAll() {
+        int j;
+        File f = new File(" ");
+        String path = f.getAbsolutePath();
 
+        FileDialog s = new FileDialog(this, "StickingSequences", FileDialog.SAVE);
+        s.setDirectory(path);
+        s.setFile("SequencesOf" + a);
+        s.show();
+        String tempFile = s.getFile();
+        String dir = s.getDirectory();
+
+        if ((tempFile == null) || (dir == null)) {
+            return;
+        }
+
+        File saveIt = new File(new File(dir), tempFile);
+
+        try {
+            FileWriter fw = new FileWriter(saveIt);
+            BufferedWriter out = new BufferedWriter(fw);
+
+            out.write("Full Numerical List");
+            out.newLine();
+
+            j = fullList.length;
+            for (int i=0; i < j; i++) {
+                out.write((i+1) + ". " + fullList[i].toString());
+                out.newLine();
+            }
+            out.newLine();
+
+            out.write("Unique Sequences");
+            out.newLine();
+
+            j = uniq.length;
+            for (int i = 0; i < j; i++) {
+                out.write((i+1) + ". " + uniq[i].toString());
+                out.newLine();
+            }
+            out.newLine();
+
+            out.write("Use All Four Mallets");
+            out.newLine();
+
+            j = allFour.length;
+            for (int i = 0; i < j; i++) {
+                out.write((i+1) + ". " + allFour[i].toString());
+                out.newLine();
+            }
+            out.newLine();
+
+            out.write("Unique Sequences using All Four Mallets");
+            out.newLine();
+
+            j = all4Uniq.length;
+            for (int i = 0; i < j; i++) {
+                out.write((i+1) + ". " + all4Uniq[i].toString());
+                out.newLine();
+            }
+            out.newLine();
+
+            out.flush();
+            out.close();
+
+        } catch (IOException e) {
+            System.out.println(e);
+        }
     }
+
 }
